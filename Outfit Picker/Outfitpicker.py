@@ -17,22 +17,35 @@ if correct.upper()=="Y":
 else:
     picker_day=input("What day is it? Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday ")
 
-def colour_picker(picker_day): 
-    colour_dict={"Monday":"Gray","Tuesday":"Blue", "Wednesday":"Black","Thursday": "Red","Friday":"Green","Saturday":"Brown","Sunday": "Brown"}
-    colour=colour_dict.get(picker_day)
-    print("The colour for your selected day is {0}".format(colour))
+colour_dict={"Monday":"Gray","Tuesday":"Blue", "Wednesday":"Black","Thursday": "Red","Friday":"Green","Saturday":"Brown","Sunday": "Brown"}
+colour=colour_dict.get(picker_day)
+print("The colour for your selected day is {0}".format(colour))
 
-def workday(picker_day):
-    if picker_day =="Monday" or "Tuesday" or "Wednesday" or "Thursday" or "Friday":
-        double_check=input("I'm assuming you'll be working today, correct? Y/N ")
-        if double_check.upper()=="Y":
-            print("Great! We'll take note of that.")
-            daytype="workday"
-        if double_check.upper()=="N":
-            print("Great! We'll take note of that.")
-            daytype="holiday"
-        print("Today is a {0}.".format(daytype))
-        return daytype
-            
-colour_picker(picker_day)
-workday(picker_day)
+if picker_day =="Monday" or "Tuesday" or "Wednesday" or "Thursday" or "Friday":
+    double_check=input("I'm assuming you'll be working today, correct? Y/N ")
+    if double_check.upper()=="Y":
+        print("Great! We'll take note of that.")
+        daytype="workday"
+    if double_check.upper()=="N":
+        daytype=input("What will you be doing? ")
+    print("Today is a {0}.".format(daytype))
+
+if daytype=="workday":
+    formality_input=input("What will you be doing today? W)FH / OR)Office Research / OM)Office Meetings / T)eaching / G)raduation ")
+    formality_dict={"W":"WFH","OR":"Office Research","OM":"Office Meetings","T":"Teaching","G":"Graduation"}
+    formality=formality_dict.get(formality_input)
+    print("Your activity is {0}.".format(formality))
+
+#database_path=input("Where have you stored your clothing database? ")
+database=sqlite3.connect("C:\\Users\\rasia\\Dropbox\\Housekeeping\\Outfit Picker\\Clothing.db")
+cur=database.cursor()
+cur.execute("SELECT Hair, Makeup, Earrings, Necklace, Bracelet, Gloves, Purse FROM Formality_Accessories WHERE Level=?;",(formality,))
+accessories=cur.fetchall()
+headings=("Hair", "Makeup", "Earrings", "Necklace", "Bracelet", "Gloves", "Purse")
+print("Accessories: ")
+for j in headings:
+    print("{:<25}".format(j),end="")
+print("")
+for item in accessories:
+    for i in item: 
+        print("{:<25}".format(i),end="")         
