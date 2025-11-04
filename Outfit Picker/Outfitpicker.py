@@ -36,8 +36,8 @@ if daytype=="workday":
     formality=formality_dict.get(formality_input)
     print("Your activity is {0}.".format(formality))
 
-#database_path=input("Where have you stored your clothing database? ")
-database=sqlite3.connect("C:\\Users\\rasia\\Dropbox\\Housekeeping\\Outfit Picker\\Clothing.db")
+database_path=input("Where have you stored your clothing database? ")
+ #removed database here as repo is public
 cur=database.cursor()
 cur.execute("SELECT Hair, Makeup, Earrings, Necklace, Bracelet, Gloves, Purse FROM Formality_Accessories WHERE Level=?;",(formality,))
 accessories=cur.fetchall()
@@ -48,4 +48,6 @@ for j in headings:
 print("")
 for item in accessories:
     for i in item: 
-        print("{:<25}".format(i),end="")         
+        print("{:<25}".format(i),end="")
+
+print("All done!")         
